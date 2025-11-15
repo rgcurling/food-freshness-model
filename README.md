@@ -1,8 +1,8 @@
-# Project Name 🚀
+# Food Freshness Classification Model 
 
-Short project description — what it does, why it exists, and who it’s for.
+This project utilizes machine learning to classify whether fruits and vegetables are fresh or stale, supporting automated food-quality inspection and reducing waste.
 
-## 📌 Table of Contents
+## Table of Contents
 - [About](#about)
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -11,48 +11,101 @@ Short project description — what it does, why it exists, and who it’s for.
 - [License](#license)
 
 ## 📖 About
-Explain the motivation, problem it solves, and context.
 
-## ✨ Features
-- Feature 1
-- Feature 2
-- Feature 3
+Modern food logistics face two major problems:
+  1. Unnecessary spoilage due to misjudging freshness
+  2. Health risks caused by consuming spoiled produce
 
-## 🛠 Getting Started
-### Prerequisites
-List dependencies, e.g.:
-```bash
-npm install -g pnpm
-```
+This project addresses those issues by building a machine-learning system that predicts: The type of produce, and whether the produce is fresh or stale
 
-### Installation
-```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
-npm install
-```
+##  Features
+1. Produce Type Classification (Random Forest)
 
-## 🚀 Usage
-Example commands or API usage.
+A Random Forest classifier is used to identify which fruit or vegetable appears in an image (e.g., apple, banana, tomato).
+Key features extracted:
 
-```bash
-npm run start
-```
+  - Color histograms (hue, saturation, brightness)
+  - Texture metrics using LBP & GLCM
+  - Edge information to capture shape differences
 
-## 📂 Project Structure
-```
-src/
-  ├── index.js   # Entry point
-  └── utils.js   # Helper functions
-```
 
-## 🧪 Running Tests
-```bash
-npm test
-```
+2. Freshness Classification (Logistic Regression)
 
-## 🤝 Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+A Logistic Regression model classifies produce as fresh (0) or stale (1).
 
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
+Features used to determine freshness:
+  - Color intensity & brightness — dullness often indicates spoilage
+  - Texture coarseness — rough/spotty surfaces indicate aging
+  - Edge sharpness / wrinkle detection via Sobel filters
+  - Surface irregularity captured by texture patterns
+
+Positive coefficients corresponded to stale indicators, and negative coefficients corresponded to fresh
+
+Getting Started
+
+This section describes how to set up the environment, install dependencies, prepare the dataset, and run the classification pipeline.
+
+# Prerequisites
+
+Ensure the following are installed:
+
+  - Python 3.8 or higher
+
+  - pip (Python package manager)
+
+  - Optional: a virtual environment tool such as venv or conda
+
+## Install the required Python packages:
+
+pip install scikit-learn opencv-python scikit-image numpy pandas matplotlib seaborn joblib
+
+These packages support image processing, feature extraction, machine learning model training, and visualization.
+
+
+# Installation
+
+Clone the repository and install the project requirements:
+
+git clone https://github.com/rgcurling/food-freshness-model.git
+cd food-freshness-model
+pip install -r requirements.txt
+
+
+If your repository does not yet include a requirements.txt file, one can be generated based on the project dependencies.
+
+# Dataset Setup
+
+This project uses the "Fruits Fresh and Rotten" dataset from Kaggle:
+https://www.kaggle.com/datasets/swoyam2609/fresh-and-stale-classification
+
+After downloading the dataset, place the extracted image folders into:
+
+data/images/
+
+
+Each folder should correspond to a specific class label, such as:
+
+fresh_apple/
+rotten_apple/
+fresh_banana/
+rotten_banana/
+...
+
+
+The dataset includes categories such as oranges, bananas, apples, potatoes, okra, tomatoes, capsicum, cucumbers, and bitter gourd.
+
+
+# Running the Pipeline
+
+Once dependencies are installed and the dataset is prepared, run the full machine learning pipeline:
+  - python src/index.py
+
+This script performs the following steps:
+
+  - Loads and preprocesses images
+  - Extracts features (color histograms, texture metrics, and edge features)
+  - Trains a Random Forest model for produce type classification
+  - Trains a Logistic Regression model for freshness classification
+  - Evaluates model performance
+
+Saves the trained models using joblibENSE` for more information.
